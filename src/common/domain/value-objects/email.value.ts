@@ -28,4 +28,8 @@ export class Email {
     }
     return Result.ok(new Email(value));
   }
+
+  public getValue(): string {
+    return this.value;
+  }
 }

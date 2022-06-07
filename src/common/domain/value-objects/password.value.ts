@@ -23,4 +23,8 @@ export class Password {
     }
     return Result.ok(new Password(value));
   }
+
+  public getValue(): string {
+    return this.value;
+  }
 }
