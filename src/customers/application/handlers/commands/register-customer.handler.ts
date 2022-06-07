@@ -1,5 +1,9 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AppNotification } from 'src/common/application/app.notification';
+import { CustomerName } from 'src/common/domain/value-objects/customer-name.value';
+import { Email } from 'src/common/domain/value-objects/email.value';
+import { Password } from 'src/common/domain/value-objects/password.value';
 import { CustomerTypeORM } from 'src/customers/infrastructure/persistence/typeorm/entities/customer.typeorm';
 import { Repository } from 'typeorm';
 
@@ -14,8 +18,31 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
         private publisher: EventPublisher,
     ) {}
 
-    async execute(command: RegisterCustomerCommand): Promise<any> {
-      // const nameResult: Result<AppNotification, Name> 
+    async execute(command: RegisterCustomerCommand) {
+        const customerNameResult: Result<AppNotification, CustomerName> = CustomerName.create(
+            command.firstName, command.lastName,
+        );
+        
+        if(customerNameResult.isFailure()){
+            return 0;
+        }
+
+        const emailResult: Result<AppNotification, Email> = Email.create(
+            command.email,
+        );
+
+        if(emailResult.isFailure()){
+            return 0;
+        }
+
+        const passwordResult: Result<AppNotification, Password> = Password.create(
+            command.password,
+          );
+      
+          if (passwordResult.isFailure()) {
+            return 0;
+          }
+      
     }
 
 
