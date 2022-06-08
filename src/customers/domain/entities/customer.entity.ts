@@ -14,9 +14,8 @@ export class Customer extends AggregateRoot {
   private carMake: string;
   
 
-  public constructor(id: CustomerId, name: CustomerName, email: Email, password: Password, carMake: string) {
+  public constructor(name: CustomerName, email: Email, password: Password, carMake: string) {
     super();
-    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
@@ -31,6 +30,7 @@ export class Customer extends AggregateRoot {
   public getId(): CustomerId {
     return this.id;
   }
+  
 
   public getName(): CustomerName {
     return this.name;
@@ -46,6 +46,10 @@ export class Customer extends AggregateRoot {
 
   public getCarMake(): string {
     return this.carMake;
+  }
+
+  public changeId(id: CustomerId): void {
+    this.id = id;
   }
 
   public changeName(name: CustomerName): void {

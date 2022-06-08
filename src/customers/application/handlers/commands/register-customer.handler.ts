@@ -4,11 +4,15 @@ import { AppNotification } from 'src/common/application/app.notification';
 import { CustomerName } from 'src/common/domain/value-objects/customer-name.value';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
+import { Customer } from 'src/customers/domain/entities/customer.entity';
+import { CustomerFactory } from 'src/customers/domain/factories/customer.factory';
+import { CustomerId } from 'src/customers/domain/value-objects/customer-id.value';
 import { CustomerTypeORM } from 'src/customers/infrastructure/persistence/typeorm/entities/customer.typeorm';
 import { Repository } from 'typeorm';
 
 import { Result } from 'typescript-result';
 import { RegisterCustomerCommand } from '../../commands/register-customer.command';
+import { CustomerMapper } from '../../mappers/customer.mapper';
 
 @CommandHandler(RegisterCustomerCommand)
 export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomerCommand> {
@@ -19,6 +23,7 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
     ) {}
 
     async execute(command: RegisterCustomerCommand) {
+        let customerId: number = 0;
         const customerNameResult: Result<AppNotification, CustomerName> = CustomerName.create(
             command.firstName, command.lastName,
         );
@@ -37,12 +42,24 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
 
         const passwordResult: Result<AppNotification, Password> = Password.create(
             command.password,
-          );
+        );
       
-          if (passwordResult.isFailure()) {
+        if (passwordResult.isFailure()) {
             return 0;
-          }
-      
+        }
+
+        let customer: Customer = CustomerFactory.createFrom(customerNameResult.value, emailResult.value, passwordResult.value, command.carMake);
+        let customerTypeORM: CustomerTypeORM = CustomerMapper.toTypeORM(customer);
+        customerTypeORM = await this.customerRepository.save(customerTypeORM);
+        if (customerTypeORM == null) {
+          return customerId;
+        }
+        customerId = Number(customerTypeORM.id);
+        customer.changeId(CustomerId.of(customerId));
+        customer = this.publisher.mergeObjectContext(customer);
+        customer.register();
+        customer.commit();
+        return customerId;
     }
 
 

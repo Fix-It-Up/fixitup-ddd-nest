@@ -8,6 +8,10 @@ export class CustomerId {
     public static create(value: number) {
       return new CustomerId(value);
     }
+
+    public static of(value: number): CustomerId {
+      return new CustomerId(value);
+    }
   
     public getValue(): number {
       return this.value;

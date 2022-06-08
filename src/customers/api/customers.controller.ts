@@ -16,7 +16,7 @@ export class CustomersController{
     ){}
 
     @Post()
-    async registerCustomer(
+    async register(
       @Body() registerCustomerRequestDto: RegisterCustomerRequestDto,
       @Res({ passthrough: true }) response
     ): Promise<object> {

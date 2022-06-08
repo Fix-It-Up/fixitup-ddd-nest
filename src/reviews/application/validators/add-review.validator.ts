@@ -7,18 +7,18 @@ import { AddReviewRequestDto } from '../dtos/request/add-review-request.dto';
 
 @Injectable()
 export class AddReviewValidator {
-  constructor(@InjectRepository(MechanicTypeORM) private accountRepository: Repository<MechanicTypeORM>) {}
+  // constructor(@InjectRepository(MechanicTypeORM) private accountRepository: Repository<MechanicTypeORM>) {}
 
-  public async validate(addReviewRequestDto: AddReviewRequestDto): Promise<AppNotification> {
-    let notification: AppNotification = new AppNotification();
-    //description required
-    //mechanic id needs to exist
-    //customer id needs to exist
+  // public async validate(addReviewRequestDto: AddReviewRequestDto): Promise<AppNotification> {
+  //   let notification: AppNotification = new AppNotification();
+  //   //description required
+  //   //mechanic id needs to exist
+  //   //customer id needs to exist
 
-    if (notification.hasErrors()) {
-      return notification;
-    }
+  //   if (notification.hasErrors()) {
+  //     return notification;
+  //   }
 
-    return notification;
-  }
+  //   return notification;
+  // }
 }
