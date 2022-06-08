@@ -1,5 +1,6 @@
 import { Body, Controller, Post, Res } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
+import { ApiController } from "src/common/api/api.controller";
 import { AppNotification } from "src/common/application/app.notification";
 import { Result } from "typescript-result";
 import { RegisterCustomerRequestDto } from "../application/dtos/request/register-customer-request.dto";
@@ -15,8 +16,8 @@ export class CustomersController{
         private readonly queryBus: QueryBus
     ){}
 
-    @Post('/person')
-    async registerPerson(
+    @Post()
+    async registerCustomer(
       @Body() registerCustomerRequestDto: RegisterCustomerRequestDto,
       @Res({ passthrough: true }) response
     ): Promise<object> {
