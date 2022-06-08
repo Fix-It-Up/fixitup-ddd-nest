@@ -1,13 +1,12 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { ApiController } from "src/common/api/api.controller";
 import { AppNotification } from "src/common/application/app.notification";
 import { Result } from "typescript-result";
 import { RegisterCustomerRequestDto } from "../application/dtos/request/register-customer-request.dto";
 import { RegisterCustomerResponseDto } from "../application/dtos/response/register-customer-response.dto";
+import { GetCustomersQuery } from "../application/queries/get-customers.query";
 import { CustomersApplicationService } from "../application/services/customer-application.service";
-
-
 
 @Controller('customers')
 export class CustomersController{
@@ -34,9 +33,13 @@ export class CustomersController{
       }
     }
 
-
-
-
-
-
+    @Get()
+    async getCustomersPerson(@Res({ passthrough: true }) response): Promise<object> {
+      try {
+        const customers = await this.queryBus.execute(new GetCustomersQuery());
+        return ApiController.ok(response, customers);
+      } catch (error) {
+        return ApiController.serverError(response, error);
+      }
+    }
 }
