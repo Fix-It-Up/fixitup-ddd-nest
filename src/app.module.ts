@@ -6,8 +6,19 @@ import { CustomersModule } from './customers/customers.module';
 
 @Module({
   imports: [
-    CustomersModule,
-    TypeOrmModule.forRoot()
+    TypeOrmModule.forRoot({
+      type: "mysql",
+      url: process.env.FIXITUP_DDD_NEST_MYSQL,
+      migrationsRun: true,
+      logging: true,
+      timezone: '+00:00',
+      bigNumberStrings: false,
+      entities: ['dist/**/infrastructure/persistence/typeorm/entities/*{.ts,.js}'],
+      subscribers: [],
+      migrations: ['dist/common/infrastructure/persistence/typeorm/migrations/*{.ts,.js}'],
+      migrationsTableName: "migrations"
+    }),
+    CustomersModule
   ],
   controllers: [AppController],
   providers: [AppService],
