@@ -50,13 +50,10 @@ export class RegisterCustomerValidator{
       return notification;
     }
 
-    const customer: CustomerTypeORM = await this.customerRepository
-      .createQueryBuilder()
-      .where('email = :email', { email })
-      .getOne();
+    const customer: CustomerTypeORM = await this.customerRepository.createQueryBuilder().where("email = :email", { email }).getOne();
 
     if (customer != null) {
-      notification.addError('Customer email is taken', null);
+      notification.addError('email is taken', null);
     }
 
     return notification;

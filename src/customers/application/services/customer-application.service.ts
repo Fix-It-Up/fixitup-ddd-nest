@@ -23,7 +23,7 @@ export class CustomersApplicationService{
         );
 
         if (notification.hasErrors()) {
-        return Result.error(notification);
+            return Result.error(notification);
         }
 
         const registerCustomerCommand: RegisterCustomerCommand =
@@ -35,7 +35,7 @@ export class CustomersApplicationService{
             registerCustomerRequestDto.carMake
         );
 
-        const customerId = await this.commandBus.execute(registerCustomerCommand);
+        const customerId: number = await this.commandBus.execute(registerCustomerCommand);
 
         const registerCustomerResponseDto: RegisterCustomerResponseDto =
         new RegisterCustomerResponseDto(

@@ -6,6 +6,7 @@ import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
 import { Customer } from 'src/customers/domain/entities/customer.entity';
 import { CustomerFactory } from 'src/customers/domain/factories/customer.factory';
+import { CarMake } from 'src/customers/domain/value-objects/car-make.value';
 import { CustomerId } from 'src/customers/domain/value-objects/customer-id.value';
 import { CustomerTypeORM } from 'src/customers/infrastructure/persistence/typeorm/entities/customer.typeorm';
 import { Repository } from 'typeorm';
@@ -48,14 +49,19 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
             return 0;
         }
 
-        let customer: Customer = CustomerFactory.createFrom(customerNameResult.value, emailResult.value, passwordResult.value, command.carMake);
+        const carMakeResult: Result<AppNotification, CarMake> = CarMake.create(command.carMake);
+
+        if (carMakeResult.isFailure()) {
+            return 0;
+        }
+        let customer: Customer = CustomerFactory.createFrom(customerId, customerNameResult.value, emailResult.value, passwordResult.value, carMakeResult.value);
         let customerTypeORM: CustomerTypeORM = CustomerMapper.toTypeORM(customer);
         customerTypeORM = await this.customerRepository.save(customerTypeORM);
         if (customerTypeORM == null) {
           return customerId;
         }
         customerId = Number(customerTypeORM.id);
-        customer.changeId(CustomerId.of(customerId));
+        customer.changeId(customerId);
         customer = this.publisher.mergeObjectContext(customer);
         customer.register();
         customer.commit();
