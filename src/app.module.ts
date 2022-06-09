@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CustomersModule } from './customers/customers.module';
+import { MechanicsModule } from './mechanics/mechanics.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { CustomersModule } from './customers/customers.module';
       migrations: ['dist/common/infrastructure/persistence/typeorm/migrations/*{.ts,.js}'],
       migrationsTableName: "migrations"
     }),
-    CustomersModule
+    CustomersModule,
+    MechanicsModule
   ],
   controllers: [AppController],
   providers: [AppService],

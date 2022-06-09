@@ -36,8 +36,8 @@ export class MechanicsController{
     @Get()
     async getMechanics(@Res({ passthrough: true }) response): Promise<object> {
       try {
-        const customers = await this.queryBus.execute(new GetMechanicsQuery());
-        return ApiController.ok(response, customers);
+        const mechanics = await this.queryBus.execute(new GetMechanicsQuery());
+        return ApiController.ok(response, mechanics);
       } catch (error) {
         return ApiController.serverError(response, error);
       }
