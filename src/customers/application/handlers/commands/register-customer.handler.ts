@@ -50,7 +50,6 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
         }
 
         const carMakeResult: Result<AppNotification, CarMake> = CarMake.create(command.carMake);
-
         if (carMakeResult.isFailure()) {
             return 0;
         }
