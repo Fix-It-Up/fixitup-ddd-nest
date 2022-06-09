@@ -1,6 +1,16 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppNotification } from 'src/common/application/app.notification';
+import { Email } from 'src/common/domain/value-objects/email.value';
+import { Password } from 'src/common/domain/value-objects/password.value';
+import { Mechanic } from 'src/mechanics/domain/entities/mechanic.entity';
+import { MechanicFactory } from 'src/mechanics/domain/factories/mechanic.factory';
+import { MechanicAddress } from 'src/mechanics/domain/value-objects/mechanic-address.value.dto';
+import { MechanicDescription } from 'src/mechanics/domain/value-objects/mechanic-description.value';
+import { MechanicName } from 'src/mechanics/domain/value-objects/mechanic-name.value';
+import { MechanicTypeORM } from 'src/mechanics/infrastructure/persistence/typeorm/entities/mechanic.typeorm';
+import { Repository } from 'typeorm';
+import { Result } from 'typescript-result';
 import { RegisterMechanicCommand } from '../../commands/register-mechanic.command';
 
 @CommandHandler(RegisterMechanicCommand)
@@ -39,22 +49,28 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
             return 0;
         }
 
-        const carMakeResult: Result<AppNotification, CarMake> = CarMake.create(command.carMake);
-        if (carMakeResult.isFailure()) {
+        const addressResult: Result<AppNotification, MechanicAddress> = MechanicAddress.create(command.address);
+        if (addressResult.isFailure()) {
             return 0;
         }
-        let customer: Customer = CustomerFactory.createFrom(customerId, customerNameResult.value, emailResult.value, passwordResult.value, carMakeResult.value);
-        let customerTypeORM: CustomerTypeORM = CustomerMapper.toTypeORM(customer);
-        customerTypeORM = await this.customerRepository.save(customerTypeORM);
-        if (customerTypeORM == null) {
-          return customerId;
+
+        const descriptionResult: Result<AppNotification, MechanicDescription> = MechanicDescription.create(command.description);
+        if (descriptionResult.isFailure()) {
+            return 0;
         }
-        customerId = Number(customerTypeORM.id);
-        customer.changeId(customerId);
-        customer = this.publisher.mergeObjectContext(customer);
-        customer.register();
-        customer.commit();
-        return customerId;
+
+        let mechanic: Mechanic = MechanicFactory.createFrom(mechanicId, mechanicNameResult.value, emailResult.value, passwordResult.value, addressResult.value, descriptionResult.value);
+        let mechanicTypeORM: MechanicTypeORM = MechanicMapper.toTypeORM(mechanic);
+        mechanicTypeORM = await this.mechanicRepository.save(mechanicTypeORM);
+        if (mechanicTypeORM == null) {
+          return mechanicId;
+        }
+        mechanicId = Number(mechanicTypeORM.id);
+        mechanic.changeId(mechanicId);
+        mechanic = this.publisher.mergeObjectContext(mechanic);
+        mechanic.register();
+        mechanic.commit();
+        return mechanicId;
     }
 
 

@@ -16,7 +16,7 @@ export class CustomerMapper {
         customer.getName().getFirstName(),
         customer.getName().getLastName(),
       );
-      console.log('hello!!!!!');
+      console.log('im in');
       console.log(customerTypeORM.name);
       customerTypeORM.email = EmailTypeORM.from(customer.getEmail().getValue());
       console.log(customerTypeORM.email)

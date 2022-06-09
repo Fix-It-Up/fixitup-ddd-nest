@@ -1,8 +1,8 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { AppNotification } from "src/common/application/app.notification";
-import { CustomerTypeORM } from "src/customers/infrastructure/persistence/typeorm/entities/customer.typeorm";
+import { MechanicTypeORM } from "src/mechanics/infrastructure/persistence/typeorm/entities/mechanic.typeorm";
 import { Repository } from "typeorm";
-import { RegisterCustomerRequestDto } from "../dtos/request/register-customer-request.dto";
+import { RegisterMechanicRequestDto } from "../dtos/request/register-mechanic-request.dto";
 
 export class RegisterMechanicValidator{
     constructor(
@@ -24,37 +24,37 @@ export class RegisterMechanicValidator{
     }
     //check attributes
 
-    const lastName: string = registerCustomerRequestDto.lastName.trim();
-
-    if (lastName.length <= 0) {
-      notification.addError('Customer lastName is required', null);
-    }
-
-    const email: string = registerCustomerRequestDto.email.trim();
+    const email: string = registerMechanicRequestDto.email.trim();
 
     if (email.length <= 0) {
-      notification.addError('Customer email is required', null);
+      notification.addError('mechanic email is required', null);
     }
 
-    const password: string = registerCustomerRequestDto.password.trim();
+    const password: string = registerMechanicRequestDto.password.trim();
 
     if (password.length <= 0) {
-      notification.addError('Customer password is required', null);
+      notification.addError('mechanic password is required', null);
     }
 
-    const carMake: string = registerCustomerRequestDto.carMake.trim();
+    const address: string = registerMechanicRequestDto.address.trim();
 
-    if (carMake.length <= 0) {
-      notification.addError('Customer car make is required', null);
+    if (address.length <= 0) {
+      notification.addError('Mechanic address is required', null);
+    }
+
+    const description: string = registerMechanicRequestDto.description.trim();
+
+    if (description.length <= 0) {
+      notification.addError('Mechanic description is required', null);
     }
 
     if (notification.hasErrors()) {
       return notification;
     }
 
-    const customer: CustomerTypeORM = await this.customerRepository.createQueryBuilder().where("email = :email", { email }).getOne();
+    const mechanic: MechanicTypeORM = await this.mechanicRepository.createQueryBuilder().where("email = :email", { email }).getOne();
 
-    if (customer != null) {
+    if (mechanic != null) {
       notification.addError('email is taken', null);
     }
 
