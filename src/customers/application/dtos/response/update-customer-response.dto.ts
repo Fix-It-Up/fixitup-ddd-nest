@@ -1,4 +1,4 @@
-export class UpdateCustomerRequestDto{
+export class UpdateCustomerResponseDto{
     constructor(
         public readonly id: number,
         public readonly firstName: string,
