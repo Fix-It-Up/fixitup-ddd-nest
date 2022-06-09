@@ -3,27 +3,27 @@ import { QueryBus } from "@nestjs/cqrs";
 import { ApiController } from "src/common/api/api.controller";
 import { AppNotification } from "src/common/application/app.notification";
 import { Result } from "typescript-result";
-import { RegisterCustomerRequestDto } from "../application/dtos/request/register-customer-request.dto";
-import { RegisterCustomerResponseDto } from "../application/dtos/response/register-customer-response.dto";
-import { GetCustomersQuery } from "../application/queries/get-customers.query";
-import { CustomersApplicationService } from "../application/services/customer-application.service";
+import { RegisterMechanicRequestDto } from "../application/dtos/request/register-mechanic-request.dto";
+import { RegisterMechanicResponseDto } from "../application/dtos/response/register-mechanic-response.dto";
+import { GetMechanicsQuery } from "../application/queries/get-mechanics.query";
+import { MechanicsApplicationService } from "../application/services/mechanic-application.service";
 
-@Controller('customers')
-export class CustomersController{
+@Controller('mechanics')
+export class MechanicsController{
     constructor(
-        private readonly customerApplicationService: CustomersApplicationService,
+        private readonly mechanicApplicationService: MechanicsApplicationService,
         private readonly queryBus: QueryBus
     ){}
 
     @Post()
     async register(
-      @Body() registerCustomerRequestDto: RegisterCustomerRequestDto,
+      @Body() registerMechanicRequestDto: RegisterMechanicRequestDto,
       @Res({ passthrough: true }) response
     ): Promise<object> {
       try {
         //delego a la capa de aplicacion para realizar las validaciones
         //App Notification -> notificar de los posibles errores q tenga la aplicacion (patron notificacion)
-        const result: Result<AppNotification, RegisterCustomerResponseDto> = await this.customerApplicationService.register(registerCustomerRequestDto);
+        const result: Result<AppNotification, RegisterMechanicResponseDto> = await this.mechanicApplicationService.register(registerMechanicRequestDto);
         if (result.isSuccess()) {
             return ApiController.created(response, result.value);
         }
@@ -34,10 +34,10 @@ export class CustomersController{
     }
 
     @Get()
-    async getCustomers(@Res({ passthrough: true }) response): Promise<object> {
+    async getMechanics(@Res({ passthrough: true }) response): Promise<object> {
       try {
-        const customers = await this.queryBus.execute(new GetCustomersQuery());
-        return ApiController.ok(response, customers);
+        const mechanics = await this.queryBus.execute(new GetMechanicsQuery());
+        return ApiController.ok(response, mechanics);
       } catch (error) {
         return ApiController.serverError(response, error);
       }
