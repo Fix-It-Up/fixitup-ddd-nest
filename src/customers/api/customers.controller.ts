@@ -34,7 +34,7 @@ export class CustomersController{
     }
 
     @Get()
-    async getCustomersPerson(@Res({ passthrough: true }) response): Promise<object> {
+    async getCustomers(@Res({ passthrough: true }) response): Promise<object> {
       try {
         const customers = await this.queryBus.execute(new GetCustomersQuery());
         return ApiController.ok(response, customers);

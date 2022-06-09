@@ -1,6 +1,12 @@
 import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { QueryBus } from "@nestjs/cqrs";
 import { ApiController } from "src/common/api/api.controller";
+import { AppNotification } from "src/common/application/app.notification";
+import { Result } from "typescript-result";
+import { RegisterMechanicRequestDto } from "../application/dtos/request/register-mechanic-request.dto";
+import { RegisterMechanicResponseDto } from "../application/dtos/response/register-mechanic-response.dto";
+import { GetMechanicsQuery } from "../application/queries/get-mechanics.query";
+import { MechanicsApplicationService } from "../application/services/mechanic-application.service";
 
 @Controller('mechanics')
 export class MechanicsController{
@@ -28,7 +34,7 @@ export class MechanicsController{
     }
 
     @Get()
-    async getCustomersPerson(@Res({ passthrough: true }) response): Promise<object> {
+    async getMechanics(@Res({ passthrough: true }) response): Promise<object> {
       try {
         const customers = await this.queryBus.execute(new GetMechanicsQuery());
         return ApiController.ok(response, customers);
