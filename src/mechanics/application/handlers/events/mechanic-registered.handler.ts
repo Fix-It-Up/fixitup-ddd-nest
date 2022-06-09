@@ -1,6 +1,7 @@
 import { EventsHandler } from '@nestjs/cqrs/dist/utils/events-handler.decorator'
 import { IEventHandler } from '@nestjs/cqrs';
 import { CustomerRegisteredEvent } from 'src/customers/domain/events/customer-registered.event';
+import { MechanicRegisteredEvent } from 'src/mechanics/domain/events/mechanic-registered.event';
 
 @EventsHandler(MechanicRegisteredEvent)
 export class MechanicRegisteredHandler

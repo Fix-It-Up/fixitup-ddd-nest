@@ -12,6 +12,7 @@ import { MechanicTypeORM } from 'src/mechanics/infrastructure/persistence/typeor
 import { Repository } from 'typeorm';
 import { Result } from 'typescript-result';
 import { RegisterMechanicCommand } from '../../commands/register-mechanic.command';
+import { MechanicMapper } from '../../mappers/mechanic.mapper';
 
 @CommandHandler(RegisterMechanicCommand)
 export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanicCommand> {
