@@ -1,6 +1,9 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppNotification } from 'src/common/application/app.notification';
+import { UserType } from 'src/common/domain/enums/user-type.enum';
+import { UserAbstractFactory } from 'src/common/domain/factories/abstract/user-abstract-factory';
+import { UserFactoryMethod } from 'src/common/domain/factories/user-factory-method';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
 import { Mechanic } from 'src/mechanics/domain/entities/mechanic.entity';
@@ -61,7 +64,14 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
             return 0;
         }
 
-        let mechanic: Mechanic = MechanicFactory.createFrom(mechanicId, mechanicNameResult.value, emailResult.value, passwordResult.value, addressResult.value, descriptionResult.value);
+        const userFactory: UserAbstractFactory = UserFactoryMethod.getType(UserType.MECHANIC);
+
+        let mechanic: Mechanic = userFactory.createFrom({
+            mechanicName: mechanicNameResult.value,
+            email: emailResult.value,
+            password: passwordResult.value, 
+            address: addressResult.value, 
+            description: descriptionResult.value});
         let mechanicTypeORM: MechanicTypeORM = MechanicMapper.toTypeORM(mechanic);
         mechanicTypeORM = await this.mechanicRepository.save(mechanicTypeORM);
         if (mechanicTypeORM == null) {
