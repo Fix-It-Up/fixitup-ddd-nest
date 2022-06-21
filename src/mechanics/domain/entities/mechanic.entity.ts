@@ -5,12 +5,13 @@ import { Password } from 'src/common/domain/value-objects/password.value';
 import { MechanicRegisteredEvent } from '../events/mechanic-registered.event';
 import { MechanicAddress } from '../value-objects/mechanic-address.value.dto';
 import { MechanicDescription } from '../value-objects/mechanic-description.value';
+import { MechanicId } from '../value-objects/mechanic-id.value';
 import { MechanicName } from '../value-objects/mechanic-name.value';
 
 
 //add values obj
 export class Mechanic extends AggregateRoot {
-  private id: number;
+  private id: MechanicId;
   private mechanicName: MechanicName;
   private email: Email;
   private password: Password;
@@ -18,7 +19,7 @@ export class Mechanic extends AggregateRoot {
   private description: MechanicDescription;
   
 //fix
-  public constructor(id: number, mechanicName: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
+  public constructor(id: MechanicId, mechanicName: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
     super();
     this.id = id;
     this.mechanicName = mechanicName;
@@ -30,11 +31,11 @@ export class Mechanic extends AggregateRoot {
 
   //fix
   public register() {
-    const event = new MechanicRegisteredEvent(this.id, this.mechanicName.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
+    const event = new MechanicRegisteredEvent(this.id.getValue(), this.mechanicName.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
     this.apply(event);
   }
 
-  public getId(): number {
+  public getMechanicId(): MechanicId {
     return this.id;
   }
   
@@ -59,7 +60,7 @@ export class Mechanic extends AggregateRoot {
       return this.description;
   }
 
-  public changeId(id: number): void {
+  public changeMechanicId(id: MechanicId): void {
     this.id = id;
   }
 

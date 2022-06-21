@@ -60,7 +60,8 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
           return customerId;
         }
         //keep an eye here
-        customerId = CustomerId.create(customerTypeORM.id);
+        //id.value sus
+        customerId = CustomerId.create(customerTypeORM.id.value);
         customer.changeCustomerId(customerId);
         customer = this.publisher.mergeObjectContext(customer);
         customer.register();

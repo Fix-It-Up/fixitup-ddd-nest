@@ -10,7 +10,7 @@ export class CustomerMapper {
     public static toTypeORM(customer: Customer): CustomerTypeORM {
       const customerTypeORM: CustomerTypeORM = new CustomerTypeORM();
       //bug here!
-      customerTypeORM.id = customer.getId();
+      customerTypeORM.id = CustomerIdTypeORM.from(customer.getCustomerId().getValue());
     
       customerTypeORM.name = CustomerNameTypeORM.from(
         customer.getName().getFirstName(),

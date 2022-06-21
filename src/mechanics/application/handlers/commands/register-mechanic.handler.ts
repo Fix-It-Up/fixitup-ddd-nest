@@ -7,6 +7,7 @@ import { Mechanic } from 'src/mechanics/domain/entities/mechanic.entity';
 import { MechanicFactory } from 'src/mechanics/domain/factories/mechanic.factory';
 import { MechanicAddress } from 'src/mechanics/domain/value-objects/mechanic-address.value.dto';
 import { MechanicDescription } from 'src/mechanics/domain/value-objects/mechanic-description.value';
+import { MechanicId } from 'src/mechanics/domain/value-objects/mechanic-id.value';
 import { MechanicName } from 'src/mechanics/domain/value-objects/mechanic-name.value';
 import { MechanicTypeORM } from 'src/mechanics/infrastructure/persistence/typeorm/entities/mechanic.typeorm';
 import { Repository } from 'typeorm';
@@ -24,7 +25,7 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
     ) {}
 
     async execute(command: RegisterMechanicCommand) {
-        let mechanicId: number = 0;
+        let mechanicId: MechanicId = MechanicId.create(0);
         //add mechanic name
         const mechanicNameResult: Result<AppNotification, MechanicName> = MechanicName.create(
             command.mechanicName
@@ -66,8 +67,9 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
         if (mechanicTypeORM == null) {
           return mechanicId;
         }
-        mechanicId = Number(mechanicTypeORM.id);
-        mechanic.changeId(mechanicId);
+        //keep an eye here
+        mechanicId = MechanicId.create(mechanicTypeORM.id.value);
+        mechanic.changeMechanicId(mechanicId);
         mechanic = this.publisher.mergeObjectContext(mechanic);
         mechanic.register();
         mechanic.commit();
