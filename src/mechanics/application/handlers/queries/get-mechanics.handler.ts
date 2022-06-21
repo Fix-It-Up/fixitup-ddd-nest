@@ -13,7 +13,7 @@ export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
     const sql = `
     SELECT 
         id,
-        name as mechanicName,
+        mechanicName,
         email,
         password,
         address,
@@ -21,7 +21,7 @@ export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
     FROM
         mechanics
     ORDER BY
-        name;  
+        mechanicName;  
     `;
 
     const ormMechanics = await manager.query(sql);
@@ -35,7 +35,7 @@ export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
     ) {
       const mechanicDto = new GetMechanicsDto();
       mechanicDto.id = Number(ormMechanic.id);
-      mechanicDto.name = ormMechanic.name;
+      mechanicDto.mechanicName = ormMechanic.mechanicName;
       mechanicDto.email = ormMechanic.email;
       mechanicDto.password = ormMechanic.password;
       mechanicDto.address = ormMechanic.address;

@@ -12,7 +12,7 @@ export class MechanicTypeORM{
     public id: number;
 
     @Column((type) => MechanicNameTypeORM, {prefix: false})
-    public name: MechanicNameTypeORM;
+    public mechanicName: MechanicNameTypeORM;
 
     @Column((type) => EmailTypeORM, {prefix: false})
     public email: EmailTypeORM;

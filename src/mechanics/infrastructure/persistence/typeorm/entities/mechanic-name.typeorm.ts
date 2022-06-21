@@ -1,14 +1,14 @@
 import { Column } from 'typeorm';
 
 export class MechanicNameTypeORM {
-  @Column('varchar', { name: 'name', length: 50, nullable: true })
-  public name: string;
+  @Column('varchar', { name: 'mechanicName', length: 50, nullable: true })
+  public mechanicName: string;
 
-  private constructor(name: string) {
-    this.name = name;
+  private constructor(mechanicName: string) {
+    this.mechanicName = mechanicName;
   }
 
-  public static from(name: string): MechanicNameTypeORM {
-    return new MechanicNameTypeORM(name);
+  public static from(mechanicName: string): MechanicNameTypeORM {
+    return new MechanicNameTypeORM(mechanicName);
   }
 }

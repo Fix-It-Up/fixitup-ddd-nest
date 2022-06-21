@@ -12,8 +12,8 @@ export class MechanicMapper {
 
       mechanicTypeORM.id = mechanic.getId();
     
-      mechanicTypeORM.name = MechanicNameTypeORM.from(
-        mechanic.getName().getValue()
+      mechanicTypeORM.mechanicName = MechanicNameTypeORM.from(
+        mechanic.getMechanicName().getValue()
       );
       mechanicTypeORM.email = EmailTypeORM.from(mechanic.getEmail().getValue());
 

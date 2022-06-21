@@ -11,17 +11,17 @@ import { MechanicName } from '../value-objects/mechanic-name.value';
 //add values obj
 export class Mechanic extends AggregateRoot {
   private id: number;
-  private name: MechanicName;
+  private mechanicName: MechanicName;
   private email: Email;
   private password: Password;
   private address: MechanicAddress;
   private description: MechanicDescription;
   
 //fix
-  public constructor(id: number, name: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
+  public constructor(id: number, mechanicName: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
     super();
     this.id = id;
-    this.name = name;
+    this.mechanicName = mechanicName;
     this.email = email;
     this.password = password;
     this.address = address;
@@ -30,7 +30,7 @@ export class Mechanic extends AggregateRoot {
 
   //fix
   public register() {
-    const event = new MechanicRegisteredEvent(this.id, this.name.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
+    const event = new MechanicRegisteredEvent(this.id, this.mechanicName.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
     this.apply(event);
   }
 
@@ -39,8 +39,8 @@ export class Mechanic extends AggregateRoot {
   }
   
 
-  public getName(): MechanicName {
-    return this.name;
+  public getMechanicName(): MechanicName {
+    return this.mechanicName;
   }
 
   public getEmail(): Email {
@@ -63,8 +63,8 @@ export class Mechanic extends AggregateRoot {
     this.id = id;
   }
 
-  public changeName(name: MechanicName): void {
-    this.name = name;
+  public changeMechanicName(mechanicName: MechanicName): void {
+    this.mechanicName = mechanicName;
   }
 
   public changeEmail(email: Email) {

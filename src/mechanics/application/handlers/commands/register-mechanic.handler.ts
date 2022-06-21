@@ -27,7 +27,7 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
         let mechanicId: number = 0;
         //add mechanic name
         const mechanicNameResult: Result<AppNotification, MechanicName> = MechanicName.create(
-            command.name
+            command.mechanicName
         );
         
         if(mechanicNameResult.isFailure()){

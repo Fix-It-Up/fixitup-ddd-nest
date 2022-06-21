@@ -1,6 +1,6 @@
 export class RegisterMechanicCommand {
     constructor(
-      public readonly name: string,
+      public readonly mechanicName: string,
       public readonly email: string,
       public readonly password: string,
       public readonly address: string,

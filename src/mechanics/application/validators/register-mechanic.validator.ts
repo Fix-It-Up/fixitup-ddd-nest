@@ -17,9 +17,9 @@ export class RegisterMechanicValidator{
 
     const notification: AppNotification = new AppNotification();
 
-    const name: string = registerMechanicRequestDto.name.trim();
+    const mechanicName: string = registerMechanicRequestDto.mechanicName.trim();
 
-    if (name.length <= 0) {
+    if (mechanicName.length <= 0) {
       notification.addError('Mechanic name is required', null);
     }
     //check attributes
