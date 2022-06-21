@@ -1,6 +1,9 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppNotification } from 'src/common/application/app.notification';
+import { UserType } from 'src/common/domain/enums/user-type.enum';
+import { UserAbstractFactory } from 'src/common/domain/factories/abstract/user-abstract-factory';
+import { UserFactoryMethod } from 'src/common/domain/factories/user-factory-method';
 import { CustomerName } from 'src/common/domain/value-objects/customer-name.value';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
@@ -53,7 +56,17 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
         if (carMakeResult.isFailure()) {
             return 0;
         }
-        let customer: Customer = CustomerFactory.createFrom(customerId, customerNameResult.value, emailResult.value, passwordResult.value, carMakeResult.value);
+        //client code for abstract factory (users)
+        const userFactory: UserAbstractFactory = UserFactoryMethod.getType(
+            UserType.CUSTOMER,
+        );
+
+        let customer: Customer = userFactory.createFrom(
+            {name: customerNameResult.value,
+             email: emailResult.value,
+             password: passwordResult.value, 
+             carMake: carMakeResult.value});
+             
         let customerTypeORM: CustomerTypeORM = CustomerMapper.toTypeORM(customer);
         customerTypeORM = await this.customerRepository.save(customerTypeORM);
         if (customerTypeORM == null) {
