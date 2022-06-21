@@ -7,14 +7,14 @@ import { CarMake } from '../value-objects/car-make.value';
 import { CustomerId } from '../value-objects/customer-id.value';
 
 export class Customer extends AggregateRoot {
-  private id: number;
+  private id: CustomerId;
   private name: CustomerName;
   private email: Email;
   private password: Password;
   private carMake: CarMake;
   
 
-  public constructor(id: number, name: CustomerName, email: Email, password: Password, carMake: CarMake) {
+  public constructor(id: CustomerId, name: CustomerName, email: Email, password: Password, carMake: CarMake) {
     super();
     this.id = id;
     this.name = name;
@@ -24,11 +24,11 @@ export class Customer extends AggregateRoot {
   }
 
   public register() {
-    const event = new CustomerRegisteredEvent(this.id, this.name.getFirstName(), this.name.getLastName(), this.email.getValue(), this.password.getValue(), this.carMake.getValue());
+    const event = new CustomerRegisteredEvent(this.id.getValue(), this.name.getFirstName(), this.name.getLastName(), this.email.getValue(), this.password.getValue(), this.carMake.getValue());
     this.apply(event);
   }
 
-  public getId(): number {
+  public getCustomerId(): CustomerId {
     return this.id;
   }
   
@@ -49,7 +49,7 @@ export class Customer extends AggregateRoot {
     return this.carMake;
   }
 
-  public changeId(id: number): void {
+  public changeCustomerId(id: CustomerId): void {
     this.id = id;
   }
 

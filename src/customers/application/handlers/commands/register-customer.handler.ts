@@ -24,7 +24,7 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
     ) {}
 
     async execute(command: RegisterCustomerCommand) {
-        let customerId: number = 0;
+        let customerId: CustomerId = CustomerId.create(0);
         const customerNameResult: Result<AppNotification, CustomerName> = CustomerName.create(
             command.firstName, command.lastName,
         );
@@ -59,8 +59,9 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
         if (customerTypeORM == null) {
           return customerId;
         }
-        customerId = Number(customerTypeORM.id);
-        customer.changeId(customerId);
+        //keep an eye here
+        customerId = CustomerId.create(customerTypeORM.id);
+        customer.changeCustomerId(customerId);
         customer = this.publisher.mergeObjectContext(customer);
         customer.register();
         customer.commit();

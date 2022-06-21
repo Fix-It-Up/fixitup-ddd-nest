@@ -12,7 +12,5 @@ export class CustomerFactory extends UserAbstractFactory{
             params.password,
             params.carMake
         );
-    }
-
-    
+    }  
 }
