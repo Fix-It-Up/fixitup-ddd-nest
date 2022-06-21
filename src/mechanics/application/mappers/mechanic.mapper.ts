@@ -22,7 +22,6 @@ export class MechanicMapper {
       );
       mechanicTypeORM.address = MechanicAddressTypeORM.from(mechanic.getAddress().getValue());
 
-       //bug here!
       mechanicTypeORM.description = MechanicDescriptionTypeORM.from(mechanic.getDescription().getValue());
       return mechanicTypeORM;
     }
