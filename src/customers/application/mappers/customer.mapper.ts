@@ -10,22 +10,18 @@ export class CustomerMapper {
     public static toTypeORM(customer: Customer): CustomerTypeORM {
       const customerTypeORM: CustomerTypeORM = new CustomerTypeORM();
       //bug here!
-      customerTypeORM.id = customer.getId();
-    
+      console.log("before is" + customer.getCustomerId().getValue());
+      customerTypeORM.id = CustomerIdTypeORM.from(customer.getCustomerId().getValue());
+      console.log("here is " +customerTypeORM.id.value);
       customerTypeORM.name = CustomerNameTypeORM.from(
         customer.getName().getFirstName(),
         customer.getName().getLastName(),
       );
-      console.log('im in');
-      console.log(customerTypeORM.name);
       customerTypeORM.email = EmailTypeORM.from(customer.getEmail().getValue());
-      console.log(customerTypeORM.email)
       customerTypeORM.password = PasswordTypeORM.from(
         customer.getPassword().getValue(),
       );
-      console.log(customerTypeORM.password);
       customerTypeORM.carMake = CarMakeTypeORM.from(customer.getCarMake().getValue());
-      console.log(customerTypeORM.carMake);
       return customerTypeORM;
     }
   }

@@ -1,27 +1,29 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+import { User } from 'src/common/domain/entities/user.entity';
 import { CustomerName } from 'src/common/domain/value-objects/customer-name.value';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
 import { MechanicRegisteredEvent } from '../events/mechanic-registered.event';
 import { MechanicAddress } from '../value-objects/mechanic-address.value.dto';
 import { MechanicDescription } from '../value-objects/mechanic-description.value';
+import { MechanicId } from '../value-objects/mechanic-id.value';
 import { MechanicName } from '../value-objects/mechanic-name.value';
 
 
 //add values obj
-export class Mechanic extends AggregateRoot {
-  private id: number;
-  private name: MechanicName;
+export class Mechanic extends AggregateRoot implements User {
+  private id: MechanicId;
+  private mechanicName: MechanicName;
   private email: Email;
   private password: Password;
   private address: MechanicAddress;
   private description: MechanicDescription;
   
 //fix
-  public constructor(id: number, name: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
+  public constructor(id: MechanicId, mechanicName: MechanicName, email: Email, password: Password, address: MechanicAddress, description: MechanicDescription) {
     super();
     this.id = id;
-    this.name = name;
+    this.mechanicName = mechanicName;
     this.email = email;
     this.password = password;
     this.address = address;
@@ -30,17 +32,17 @@ export class Mechanic extends AggregateRoot {
 
   //fix
   public register() {
-    const event = new MechanicRegisteredEvent(this.id, this.name.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
+    const event = new MechanicRegisteredEvent(this.id.getValue(), this.mechanicName.getValue(), this.email.getValue(), this.password.getValue(), this.address.getValue(), this.description.getValue());
     this.apply(event);
   }
 
-  public getId(): number {
+  public getMechanicId(): MechanicId {
     return this.id;
   }
   
 
-  public getName(): MechanicName {
-    return this.name;
+  public getMechanicName(): MechanicName {
+    return this.mechanicName;
   }
 
   public getEmail(): Email {
@@ -59,12 +61,12 @@ export class Mechanic extends AggregateRoot {
       return this.description;
   }
 
-  public changeId(id: number): void {
+  public changeMechanicId(id: MechanicId): void {
     this.id = id;
   }
 
-  public changeName(name: MechanicName): void {
-    this.name = name;
+  public changeMechanicName(mechanicName: MechanicName): void {
+    this.mechanicName = mechanicName;
   }
 
   public changeEmail(email: Email) {

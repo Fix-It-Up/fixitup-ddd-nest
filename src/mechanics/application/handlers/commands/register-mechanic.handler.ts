@@ -1,12 +1,16 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppNotification } from 'src/common/application/app.notification';
+import { UserType } from 'src/common/domain/enums/user-type.enum';
+import { UserAbstractFactory } from 'src/common/domain/factories/abstract/user-abstract-factory';
+import { UserFactoryMethod } from 'src/common/domain/factories/user-factory-method';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
 import { Mechanic } from 'src/mechanics/domain/entities/mechanic.entity';
 import { MechanicFactory } from 'src/mechanics/domain/factories/mechanic.factory';
 import { MechanicAddress } from 'src/mechanics/domain/value-objects/mechanic-address.value.dto';
 import { MechanicDescription } from 'src/mechanics/domain/value-objects/mechanic-description.value';
+import { MechanicId } from 'src/mechanics/domain/value-objects/mechanic-id.value';
 import { MechanicName } from 'src/mechanics/domain/value-objects/mechanic-name.value';
 import { MechanicTypeORM } from 'src/mechanics/infrastructure/persistence/typeorm/entities/mechanic.typeorm';
 import { Repository } from 'typeorm';
@@ -24,10 +28,9 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
     ) {}
 
     async execute(command: RegisterMechanicCommand) {
-        let mechanicId: number = 0;
         //add mechanic name
         const mechanicNameResult: Result<AppNotification, MechanicName> = MechanicName.create(
-            command.name
+            command.mechanicName
         );
         
         if(mechanicNameResult.isFailure()){
@@ -60,17 +63,29 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
             return 0;
         }
 
-        let mechanic: Mechanic = MechanicFactory.createFrom(mechanicId, mechanicNameResult.value, emailResult.value, passwordResult.value, addressResult.value, descriptionResult.value);
+        const userFactory: UserAbstractFactory = UserFactoryMethod.getType(UserType.MECHANIC);
+
+        let mechanic: Mechanic = userFactory.createFrom({
+            mechanicName: mechanicNameResult.value,
+            email: emailResult.value,
+            password: passwordResult.value, 
+            address: addressResult.value, 
+            description: descriptionResult.value});
         let mechanicTypeORM: MechanicTypeORM = MechanicMapper.toTypeORM(mechanic);
         mechanicTypeORM = await this.mechanicRepository.save(mechanicTypeORM);
         if (mechanicTypeORM == null) {
-          return mechanicId;
+          return 0;
         }
-        mechanicId = Number(mechanicTypeORM.id);
-        mechanic.changeId(mechanicId);
+        //keep an eye here
+        console.log("zero is" + mechanicTypeORM.id.value);
+        const mechanicId = Number(mechanicTypeORM.id.value);
+        console.log("first is" + mechanicId);
+        mechanic.changeMechanicId(MechanicId.create(mechanicId));
+        console.log("second is" + mechanic.getMechanicId());
         mechanic = this.publisher.mergeObjectContext(mechanic);
         mechanic.register();
         mechanic.commit();
+        console.log("im gonna return an id!")
         return mechanicId;
     }
 

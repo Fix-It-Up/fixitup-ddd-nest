@@ -6,7 +6,7 @@ import { CarMake } from '../value-objects/car-make.value';
 import { CustomerId } from '../value-objects/customer-id.value';
 
 export class CustomerFactory {
-    public static createFrom(id: number, name: CustomerName, email: Email, password: Password, carMake: CarMake): Customer {
+    public static createFrom(id: CustomerId, name: CustomerName, email: Email, password: Password, carMake: CarMake): Customer {
         return new Customer(id, name, email, password, carMake);
     }
 }

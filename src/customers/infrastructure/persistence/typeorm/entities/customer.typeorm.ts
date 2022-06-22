@@ -9,8 +9,9 @@ import { CustomerNameTypeORM } from './customer-name.typeorm';
 
 @Entity('customers')
 export class CustomerTypeORM{
-    @PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id', unsigned: true })
-    public id: number;
+    //@PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id', unsigned: true })
+    @Column((type) => CustomerIdTypeORM, { prefix: false })
+    public id: CustomerIdTypeORM;
 
     @Column((type) => CustomerNameTypeORM, {prefix: false})
     public name: CustomerNameTypeORM;
