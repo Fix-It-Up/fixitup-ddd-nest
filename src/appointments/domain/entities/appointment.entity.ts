@@ -1,6 +1,10 @@
 import { AggregateRoot } from "@nestjs/cqrs";
 import { AppointmentStatus } from "../enums/appointment.status";
 import { AppointmentType } from "../enums/appointment.type";
+import { AppointmentAcceptedEvent } from "../events/appointment-accepted.event";
+import { AppointmentCreatedEvent } from "../events/appointment-created.event";
+import { AppointmentFinishedEvent } from "../events/appointment-finished.event";
+import { AppointmentRejectedEvent } from "../events/appointment-rejected.event";
 import { AppointmentDate } from "../value-objects/appointment-date.value";
 import { AppointmentId } from "../value-objects/appointment-id.value";
 
@@ -25,24 +29,25 @@ export class Appointment extends AggregateRoot{
         this.amount = amount;
     }
 
+    //careful with parameters in events, particularly for enums
     public created(){
-        //const event = new AppointmentCreated();
-        //this.apply(event);
+        const event = new AppointmentCreatedEvent(this.id.getValue(), this.customerId, this.mechanicId, this.getStatus(), this.type, this.date.getDate(), this.amount);
+        this.apply(event);
     }
 
     public accepted(){
-        //const event = new AppointmentAccepted();
-        //this.apply(event);
+        const event = new AppointmentAcceptedEvent(this.id.getValue(), this.customerId, this.mechanicId, this.getStatus(), this.type, this.date.getDate(), this.amount);
+        this.apply(event);
     }
 
-    public denied(){
-        //const event = new AppointmentDenied();
-        //this.apply(event);
+    public rejected(){
+        const event = new AppointmentRejectedEvent(this.id.getValue(), this.customerId, this.mechanicId, this.getStatus(), this.type, this.date.getDate(), this.amount);
+        this.apply(event);
     }
 
     public finished(){
-        //const event = new AppointmentFinished();
-        //this.apply(event);
+        const event = new AppointmentFinishedEvent(this.id.getValue(), this.customerId, this.mechanicId, this.getStatus(), this.type, this.date.getDate(), this.amount);
+        this.apply(event);
     }
 
     public getAppointmentId(): AppointmentId{
