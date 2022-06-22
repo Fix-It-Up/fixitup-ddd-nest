@@ -1,4 +1,4 @@
-export class AppointmentDeniedEvent{
+export class AppointmentRejectedEvent{
     constructor(
         public id: number,
         public customerId: number,
