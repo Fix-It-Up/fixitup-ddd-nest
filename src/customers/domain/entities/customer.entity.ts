@@ -1,4 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+import { User } from 'src/common/domain/entities/user.entity';
 import { CustomerName } from 'src/common/domain/value-objects/customer-name.value';
 import { Email } from 'src/common/domain/value-objects/email.value';
 import { Password } from 'src/common/domain/value-objects/password.value';
@@ -6,7 +7,7 @@ import { CustomerRegisteredEvent } from '../events/customer-registered.event';
 import { CarMake } from '../value-objects/car-make.value';
 import { CustomerId } from '../value-objects/customer-id.value';
 
-export class Customer extends AggregateRoot {
+export class Customer extends AggregateRoot implements User {
   private id: CustomerId;
   private name: CustomerName;
   private email: Email;

@@ -10,7 +10,7 @@ import { MechanicNameTypeORM } from './mechanic-name.typeorm';
 
 @Entity('mechanics')
 export class MechanicTypeORM{
-    @PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id', unsigned: true })
+    @Column((type) => MechanicIdTypeORM, { prefix: false })
     public id: MechanicIdTypeORM;
 
     @Column((type) => MechanicNameTypeORM, {prefix: false})

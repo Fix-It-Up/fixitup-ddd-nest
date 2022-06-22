@@ -16,7 +16,7 @@ export class RegisterMechanicValidator{
     Promise<AppNotification>{
 
     const notification: AppNotification = new AppNotification();
-
+    
     const mechanicName: string = registerMechanicRequestDto.mechanicName.trim();
 
     if (mechanicName.length <= 0) {

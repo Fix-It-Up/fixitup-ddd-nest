@@ -28,7 +28,6 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
     ) {}
 
     async execute(command: RegisterMechanicCommand) {
-        let mechanicId: MechanicId = MechanicId.create(0);
         //add mechanic name
         const mechanicNameResult: Result<AppNotification, MechanicName> = MechanicName.create(
             command.mechanicName
@@ -75,14 +74,18 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
         let mechanicTypeORM: MechanicTypeORM = MechanicMapper.toTypeORM(mechanic);
         mechanicTypeORM = await this.mechanicRepository.save(mechanicTypeORM);
         if (mechanicTypeORM == null) {
-          return mechanicId;
+          return 0;
         }
         //keep an eye here
-        mechanicId = MechanicId.create(mechanicTypeORM.id.value);
-        mechanic.changeMechanicId(mechanicId);
+        console.log("zero is" + mechanicTypeORM.id.value);
+        const mechanicId = Number(mechanicTypeORM.id.value);
+        console.log("first is" + mechanicId);
+        mechanic.changeMechanicId(MechanicId.create(mechanicId));
+        console.log("second is" + mechanic.getMechanicId());
         mechanic = this.publisher.mergeObjectContext(mechanic);
         mechanic.register();
         mechanic.commit();
+        console.log("im gonna return an id!")
         return mechanicId;
     }
 
