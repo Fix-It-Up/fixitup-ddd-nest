@@ -1,5 +1,4 @@
 import { AggregateRoot } from "@nestjs/cqrs";
-import { DateTime } from "src/common/domain/value-objects/date-time.value";
 import { AppointmentStatus } from "../enums/appointment.status";
 import { AppointmentType } from "../enums/appointment.type";
 import { AppointmentDate } from "../value-objects/appointment-date.value";
@@ -13,4 +12,17 @@ export class Appointment extends AggregateRoot{
     private type: AppointmentType;
     private date: AppointmentDate;
     private amount: number;
+
+
+    public constructor(id: AppointmentId, customerId: number, mechanicId: number, state: AppointmentStatus,type: AppointmentType, date: AppointmentDate, amount: number){
+        super();
+        this.id = id;
+        this.customerId = customerId;
+        this.mechanicId = mechanicId;
+        this.state = state;
+        this.type = type;
+        this.date = date;
+        this.amount = amount;
+    }
+
 }
