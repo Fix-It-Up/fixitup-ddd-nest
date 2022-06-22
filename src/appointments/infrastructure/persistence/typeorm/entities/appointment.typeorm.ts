@@ -20,5 +20,8 @@ export class AppointmentTypeORM{
     @Column({ name: 'type', type: 'enum', enum: AppointmentType, default: AppointmentType.PREMIUM })
     public type: AppointmentType;
 
+    // @Column((type) => AppointmentIdTypeORM, { prefix: false })
+    // public id: AppointmentIdTypeORM;
+
 
 }
