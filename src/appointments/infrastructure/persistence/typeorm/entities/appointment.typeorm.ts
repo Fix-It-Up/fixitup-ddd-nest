@@ -2,6 +2,7 @@ import { AppointmentStatus } from "src/appointments/domain/enums/appointment.sta
 import { AppointmentType } from "src/appointments/domain/enums/appointment.type";
 import { Column, Entity } from "typeorm";
 import { AppointmentIdTypeORM } from "./appointment-id.typeorm";
+import { DateTypeOrm } from "./date.typeorm";
 
 @Entity('appointments')
 export class AppointmentTypeORM{
@@ -20,8 +21,9 @@ export class AppointmentTypeORM{
     @Column({ name: 'type', type: 'enum', enum: AppointmentType, default: AppointmentType.PREMIUM })
     public type: AppointmentType;
 
-    // @Column((type) => AppointmentIdTypeORM, { prefix: false })
-    // public id: AppointmentIdTypeORM;
+    @Column((type) => DateTypeOrm, { prefix: false })
+    public date: DateTypeOrm;
 
-
+    @Column ('int', {name: 'amount', nullable: false, unsigned: true})
+    public amount: number;
 }
