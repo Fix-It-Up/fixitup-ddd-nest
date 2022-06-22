@@ -8,21 +8,53 @@ export class Appointment extends AggregateRoot{
     private id: AppointmentId;
     private readonly customerId: number;
     private readonly mechanicId: number;
-    private state: AppointmentStatus;
+    private status: AppointmentStatus;
     private type: AppointmentType;
     private date: AppointmentDate;
     private amount: number;
 
 
-    public constructor(id: AppointmentId, customerId: number, mechanicId: number, state: AppointmentStatus,type: AppointmentType, date: AppointmentDate, amount: number){
+    public constructor(id: AppointmentId, customerId: number, mechanicId: number, status: AppointmentStatus,type: AppointmentType, date: AppointmentDate, amount: number){
         super();
         this.id = id;
         this.customerId = customerId;
         this.mechanicId = mechanicId;
-        this.state = state;
+        this.status = status;
         this.type = type;
         this.date = date;
         this.amount = amount;
+    }
+
+    public getAppointmentId(): AppointmentId{
+        return this.id;
+    }
+
+    public getCustomerId(): number{
+        return this.customerId;
+    }
+
+    public getMechanicId(): number{
+        return this.mechanicId;
+    }
+
+    public getStatus(): AppointmentStatus{
+        return this.status;
+    }
+
+    public getType(): AppointmentType{
+        return this.type;
+    }
+
+    public getDate(): AppointmentDate{
+        return this.date;
+    }
+
+    public changeStatus(status: AppointmentStatus){
+        this.status = status;
+    }
+
+    public changeDate(date: AppointmentDate){
+        this.date = date;
     }
 
 }
