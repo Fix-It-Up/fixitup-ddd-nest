@@ -2,5 +2,6 @@ export enum AppointmentStatus {
     REQUESTED = 'Requested',
     ACCEPTED = 'Accepted',
     REJECTED = 'Rejected',
-    FINISHED = 'Finished'
+    FINISHED = 'Finished',
+    NOT_FOUND = "Not Found"
 }
