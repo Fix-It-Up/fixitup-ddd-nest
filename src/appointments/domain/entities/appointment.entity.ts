@@ -25,6 +25,26 @@ export class Appointment extends AggregateRoot{
         this.amount = amount;
     }
 
+    public created(){
+        //const event = new AppointmentCreated();
+        //this.apply(event);
+    }
+
+    public accepted(){
+        //const event = new AppointmentAccepted();
+        //this.apply(event);
+    }
+
+    public denied(){
+        //const event = new AppointmentDenied();
+        //this.apply(event);
+    }
+
+    public finished(){
+        //const event = new AppointmentFinished();
+        //this.apply(event);
+    }
+
     public getAppointmentId(): AppointmentId{
         return this.id;
     }
@@ -49,12 +69,20 @@ export class Appointment extends AggregateRoot{
         return this.date;
     }
 
+    public getAmount(): number{
+        return this.amount;
+    }
+
     public changeStatus(status: AppointmentStatus){
         this.status = status;
     }
 
     public changeDate(date: AppointmentDate){
         this.date = date;
+    }
+
+    public changeAmount(amount: number){
+        this.amount = amount;
     }
 
 }
