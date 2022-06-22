@@ -14,9 +14,9 @@ export class DateTypeOrm {
     return new DateTypeOrm(date);
   }
   public static of(
-    day: number,
+    year: number,
     month: number,
-    year: number
+    day: number
   ) {
     let  date = `${year}/${month}/${day}`;
     return new DateTypeOrm(date);
