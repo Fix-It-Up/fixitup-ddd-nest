@@ -18,7 +18,7 @@ export class AppointmentApplicationService{
 
     async register(
         registerAppointmentRequestDto: RegisterAppointmentRequestDto
-    ): Promise<Result<AppNotification, RegisterAppointmentRequestDto>>{
+    ): Promise<Result<AppNotification, RegisterAppointmentResponseDto>>{
         const notification: AppNotification = await this.registerAppointmentValidator.validate(
             registerAppointmentRequestDto,
         );

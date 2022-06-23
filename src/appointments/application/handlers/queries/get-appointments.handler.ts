@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { getManager } from 'typeorm';
 import { GetAppointmentsQuery } from '../../queries/get-appointments.query';
-import { GetAppointmentsDto } from '../../dtos/queries/get-appointment.dto';
+import { GetAppointmentsDto } from '../../dtos/queries/get-appointments.dto';
 
 @QueryHandler(GetAppointmentsQuery)
 export class GetAppointmentsHandler implements IQueryHandler<GetAppointmentsQuery> {
