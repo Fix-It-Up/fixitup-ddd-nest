@@ -8,6 +8,6 @@ export class TyreRepair extends AppointmentDecorator {
 
     //tyre repair costs 30
     public calculateCost(): number {
-        return this.appointmentAbstractFactory.calculateCost() + 30;
+        return this.appointmentAbstractFactory.calculateCost() + 30.00;
     }
 }

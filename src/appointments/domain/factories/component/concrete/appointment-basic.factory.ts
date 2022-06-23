@@ -6,18 +6,6 @@ import { CreateFromParams } from "../../params/create-from.params";
 
 export class AppointmentBasicFactory extends AppointmentAbstractFactory{
     public calculateCost(): number {
-        return 50;
+        return 50.00;
     }
-    // public createFrom(params: CreateFromParams): Appointment {
-    //     return new Appointment(
-    //         AppointmentId.create(0),
-    //         params.customerId,
-    //         params.mechanicId,
-    //         AppointmentStatus.REQUESTED,
-    //         params.type,
-    //         params.date,
-    //         //basic amount:50
-    //         50
-    //     );
-    // }  
 }

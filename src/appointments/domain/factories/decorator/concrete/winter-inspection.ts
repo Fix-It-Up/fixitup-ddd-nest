@@ -8,6 +8,6 @@ export class WinterInspection extends AppointmentDecorator {
 
     //winter inspection costs 70
     public calculateCost(): number {
-        return this.appointmentAbstractFactory.calculateCost() + 70;
+        return this.appointmentAbstractFactory.calculateCost() + 70.00;
     }
 }

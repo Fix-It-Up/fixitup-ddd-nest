@@ -8,6 +8,6 @@ export class CarOzonation extends AppointmentDecorator {
 
     //car ozonation costs 50
     public calculateCost(): number {
-        return this.appointmentAbstractFactory.calculateCost() + 50;
+        return this.appointmentAbstractFactory.calculateCost() + 50.00;
     }
 }
