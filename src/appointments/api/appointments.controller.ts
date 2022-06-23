@@ -5,6 +5,7 @@ import { AppNotification } from "src/common/application/app.notification";
 import { Result } from "typescript-result";
 import { RegisterAppointmentRequestDto } from "../application/dtos/request/register-appointment-request.dto";
 import { RegisterAppointmentResponseDto } from "../application/dtos/response/register-appointment-response.dto";
+import { GetAppointmentsQuery } from "../application/queries/get-appointments.query";
 import { AppointmentApplicationService } from "../application/services/appointment-application.service";
 
 
@@ -28,6 +29,17 @@ export class AppointmentsController{
             }
             return ApiController.error(response, result.error.getErrors());
         } catch (error){
+            return ApiController.serverError(response, error);
+        }
+    }
+
+
+    @Get()
+    async getAppointments(@Res({ passthrough: true }) response): Promise<object>{
+        try{
+            const appointments = await this.queryBus.execute(new GetAppointmentsQuery());
+            return ApiController.ok(response, appointments);
+        } catch(error){
             return ApiController.serverError(response, error);
         }
     }
