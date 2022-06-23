@@ -8,8 +8,6 @@ import { RegisterAppointmentResponseDto } from "../application/dtos/response/reg
 import { GetAppointmentsQuery } from "../application/queries/get-appointments.query";
 import { AppointmentApplicationService } from "../application/services/appointment-application.service";
 
-
-
 @Controller('appointments')
 export class AppointmentsController{
     constructor(
