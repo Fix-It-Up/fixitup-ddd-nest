@@ -92,17 +92,4 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
         customer.commit();
         return customerId;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-        
 }
