@@ -8,7 +8,7 @@ import { RegisterAppointmentRequestDto } from "../dtos/request/register-appointm
 import { RegisterAppointmentResponseDto } from "../dtos/response/register-appointment-response.dto";
 import { RegisterAppointmentValidator } from "../validators/register-appointment.validator";
 
-//@Injectable
+@Injectable()
 export class AppointmentApplicationService{
     constructor(
         private commandBus: CommandBus,
