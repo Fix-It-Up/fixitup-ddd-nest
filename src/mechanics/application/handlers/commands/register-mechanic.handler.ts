@@ -76,16 +76,11 @@ export class RegisterMechanicHandler implements ICommandHandler<RegisterMechanic
         if (mechanicTypeORM == null) {
           return 0;
         }
-        //keep an eye here
-        console.log("zero is" + mechanicTypeORM.id.value);
         const mechanicId = Number(mechanicTypeORM.id.value);
-        console.log("first is" + mechanicId);
         mechanic.changeMechanicId(MechanicId.create(mechanicId));
-        console.log("second is" + mechanic.getMechanicId());
         mechanic = this.publisher.mergeObjectContext(mechanic);
         mechanic.register();
         mechanic.commit();
-        console.log("im gonna return an id!")
         return mechanicId;
     }
 

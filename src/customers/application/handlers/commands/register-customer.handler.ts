@@ -65,44 +65,19 @@ export class RegisterCustomerHandler implements ICommandHandler<RegisterCustomer
              email: emailResult.value,
              password: passwordResult.value, 
              carMake: carMakeResult.value});
-        console.log("creating type orm...")
         
         let customerTypeORM: CustomerTypeORM = CustomerMapper.toTypeORM(customer);
-        console.log("type orm created")
 
-        console.log("saving to repo...")
-        console.log(customerTypeORM.email)
-        console.log(customerTypeORM.id)
-        console.log(customerTypeORM.name)
-        console.log(customerTypeORM.carMake)
-        console.log(customerTypeORM.password)
         customerTypeORM = await this.customerRepository.save(customerTypeORM);
         if (customerTypeORM == null) {
             return 0;
         }
-        console.log("SAVED!!!")
-        //keep an eye here
-        //id.value sus
-        console.log("changing customer id to" +customerTypeORM.id.value)
+
         const customerId = Number(customerTypeORM.id.value);
         customer.changeCustomerId(CustomerId.create(customerId));
-        console.log("customer id has been changed to "+ customer.getCustomerId());
         customer = this.publisher.mergeObjectContext(customer);
         customer.register();
         customer.commit();
         return customerId;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-        
 }

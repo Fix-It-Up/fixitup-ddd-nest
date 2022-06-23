@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppointmentsModule } from './appointments/appointments.module';
 import { CustomersModule } from './customers/customers.module';
 import { MechanicsModule } from './mechanics/mechanics.module';
 
@@ -20,7 +21,8 @@ import { MechanicsModule } from './mechanics/mechanics.module';
       migrationsTableName: "migrations"
     }),
     CustomersModule,
-    MechanicsModule
+    MechanicsModule,
+    AppointmentsModule
   ],
   controllers: [AppController],
   providers: [AppService],

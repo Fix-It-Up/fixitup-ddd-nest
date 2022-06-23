@@ -36,7 +36,6 @@ export class MechanicsApplicationService{
         );
 
         const mechanicId: number = await this.commandBus.execute(registerMechanicCommand);
-        console.log("id here is" + mechanicId);
         const registerMechanicResponseDto: RegisterMechanicResponseDto =
         new RegisterMechanicResponseDto(
             mechanicId,
