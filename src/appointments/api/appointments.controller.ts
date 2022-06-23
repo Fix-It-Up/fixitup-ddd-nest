@@ -31,7 +31,6 @@ export class AppointmentsController{
         }
     }
 
-
     @Get()
     async getAppointments(@Res({ passthrough: true }) response): Promise<object>{
         try{

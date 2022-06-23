@@ -5,9 +5,9 @@ import { AppointmentStatus } from "src/appointments/domain/enums/appointment.sta
 import { AppointmentType } from "src/appointments/domain/enums/appointment.type";
 import { AppointmentAbstractFactory } from "src/appointments/domain/factories/appointment-abstract.factory";
 import { AppointmentFactoryMethod } from "src/appointments/domain/factories/appointment-factory-method";
-import { CarOzonation } from "src/appointments/domain/factories/car-ozonation";
-import { TyreRepair } from "src/appointments/domain/factories/tyre-repair";
-import { WinterInspection } from "src/appointments/domain/factories/winter-inspection";
+import { CarOzonation } from "src/appointments/domain/factories/decorator/concrete/car-ozonation";
+import { TyreRepair } from "src/appointments/domain/factories/decorator/concrete/tyre-repair";
+import { WinterInspection } from "src/appointments/domain/factories/decorator/concrete/winter-inspection";
 import { AppointmentDate } from "src/appointments/domain/value-objects/appointment-date.value";
 import { AppointmentId } from "src/appointments/domain/value-objects/appointment-id.value";
 import { AppointmentTypeORM } from "src/appointments/infrastructure/persistence/typeorm/entities/appointment.typeorm";

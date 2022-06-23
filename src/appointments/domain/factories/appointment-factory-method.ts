@@ -1,6 +1,6 @@
 import { AppointmentType } from "../enums/appointment.type";
-import { AppointmentBasicFactory } from "./appointment-basic.factory";
-import { AppointmentPremiumFactory } from "./appointment-premium.factory";
+import { AppointmentBasicFactory } from "./component/concrete/appointment-basic.factory";
+import { AppointmentPremiumFactory } from "./component/concrete/appointment-premium.factory";
 
 
 export class AppointmentFactoryMethod {

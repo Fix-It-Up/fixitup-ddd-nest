@@ -9,10 +9,7 @@ import { CustomerNameTypeORM } from "src/customers/infrastructure/persistence/ty
 export class CustomerMapper {
     public static toTypeORM(customer: Customer): CustomerTypeORM {
       const customerTypeORM: CustomerTypeORM = new CustomerTypeORM();
-      //bug here!
-      console.log("before is" + customer.getCustomerId().getValue());
       customerTypeORM.id = CustomerIdTypeORM.from(customer.getCustomerId().getValue());
-      console.log("here is " +customerTypeORM.id.value);
       customerTypeORM.name = CustomerNameTypeORM.from(
         customer.getName().getFirstName(),
         customer.getName().getLastName(),

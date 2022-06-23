@@ -1,5 +1,5 @@
-import { Appointment } from "../entities/appointment.entity";
-import { AppointmentAbstractFactory } from "./appointment-abstract.factory";
+import { Appointment } from "../../../entities/appointment.entity";
+import { AppointmentAbstractFactory } from "../../appointment-abstract.factory";
 
 export class AppointmentDecorator extends AppointmentAbstractFactory {
 

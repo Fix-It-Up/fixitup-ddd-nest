@@ -1,16 +1,15 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { AppointmentTypeORM } from "src/appointments/infrastructure/persistence/typeorm/entities/appointment.typeorm";
 import { AppNotification } from "src/common/application/app.notification";
-import { CustomerTypeORM } from "src/customers/infrastructure/persistence/typeorm/entities/customer.typeorm";
+
 import { Repository } from "typeorm";
 import { RegisterAppointmentRequestDto } from "../dtos/request/register-appointment-request.dto";
 
 export class RegisterAppointmentValidator{
     constructor(
-        @InjectRepository(CustomerTypeORM)
-        private customerRepository: Repository<CustomerTypeORM>,
+        @InjectRepository(AppointmentTypeORM)
+        private appointmentRepository: Repository<AppointmentTypeORM>,
     ){}
-
 
     public async validate(registerAppointmentRequestDto: RegisterAppointmentRequestDto): 
     Promise<AppNotification>{

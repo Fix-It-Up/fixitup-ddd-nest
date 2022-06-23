@@ -5,11 +5,10 @@ import { AppointmentAcceptedEvent } from "../events/appointment-accepted.event";
 import { AppointmentCreatedEvent } from "../events/appointment-created.event";
 import { AppointmentFinishedEvent } from "../events/appointment-finished.event";
 import { AppointmentRejectedEvent } from "../events/appointment-rejected.event";
-import { AppointmentAbstract } from "../factories/appointment.abstract";
 import { AppointmentDate } from "../value-objects/appointment-date.value";
 import { AppointmentId } from "../value-objects/appointment-id.value";
 
-export class Appointment extends AggregateRoot implements AppointmentAbstract{
+export class Appointment extends AggregateRoot{
     private id: AppointmentId;
     private readonly customerId: number;
     private readonly mechanicId: number;
@@ -28,9 +27,6 @@ export class Appointment extends AggregateRoot implements AppointmentAbstract{
         this.type = type;
         this.date = date;
         this.amount = amount;
-    }
-    public calculateCost(): number {
-        return this.amount;
     }
 
     //careful with parameters in events, particularly for enums
