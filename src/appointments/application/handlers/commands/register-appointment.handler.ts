@@ -27,6 +27,7 @@ export class RegisterAppointmentHandler implements ICommandHandler<RegisterAppoi
 
         if(command.type === "Premium"){
             let appointmentFactory: AppointmentAbstractFactory = AppointmentFactoryMethod.getType(AppointmentType.PREMIUM);
+            //Using Decorator Pattern so as to create services for each appointment type
             appointmentFactory = new CarOzonation(appointmentFactory);
             appointmentFactory = new TyreRepair(appointmentFactory);
             appointmentFactory = new WinterInspection(appointmentFactory);

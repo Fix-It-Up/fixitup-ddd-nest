@@ -20,8 +20,6 @@ export class GetCustomersHandler implements IQueryHandler<GetCustomersQuery> {
         car_make as carMake
     FROM
         customers
-    ORDER BY
-        last_name, first_name;  
     `;
 
     const ormCustomers = await manager.query(sql);
@@ -31,7 +29,7 @@ export class GetCustomersHandler implements IQueryHandler<GetCustomersQuery> {
     }
 
     const customers: GetCustomersDto[] = ormCustomers.map(function (
-      ormCustomer,
+      ormCustomer
     ) {
       const customerDto = new GetCustomersDto();
       customerDto.id = Number(ormCustomer.id);
