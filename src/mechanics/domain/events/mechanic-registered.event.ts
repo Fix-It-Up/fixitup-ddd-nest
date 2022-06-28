@@ -1,7 +1,7 @@
 export class MechanicRegisteredEvent {
     constructor(
       public id: number,
-      public name: string,
+      public mechanicName: string,
       public email: string,
       public password: string,
       public address: string,

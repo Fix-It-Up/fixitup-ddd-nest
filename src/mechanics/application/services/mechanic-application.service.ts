@@ -28,7 +28,7 @@ export class MechanicsApplicationService{
 
         const registerMechanicCommand: RegisterMechanicCommand =
         new RegisterMechanicCommand(
-            registerMechanicRequestDto.name,
+            registerMechanicRequestDto.mechanicName,
             registerMechanicRequestDto.email,
             registerMechanicRequestDto.password,
             registerMechanicRequestDto.address,
@@ -36,11 +36,10 @@ export class MechanicsApplicationService{
         );
 
         const mechanicId: number = await this.commandBus.execute(registerMechanicCommand);
-
         const registerMechanicResponseDto: RegisterMechanicResponseDto =
         new RegisterMechanicResponseDto(
             mechanicId,
-            registerMechanicRequestDto.name,
+            registerMechanicRequestDto.mechanicName,
             registerMechanicRequestDto.email,
             registerMechanicRequestDto.password,
             registerMechanicRequestDto.address,

@@ -13,18 +13,18 @@ export class MechanicName {
     return this.value;
   }
 
-  public static create(name: string): Result<AppNotification, MechanicName> {
+  public static create(mechanicName: string): Result<AppNotification, MechanicName> {
     let notification: AppNotification = new AppNotification();
-    name = (name ?? "").trim();
-    if (name === "") {
+    mechanicName = (mechanicName ?? "").trim();
+    if (mechanicName === "") {
       notification.addError('name is required', null);
     }
-    if (name.length > this.MAX_LENGTH) {
+    if (mechanicName.length > this.MAX_LENGTH) {
       notification.addError('The maximum length of an name is ' + this.MAX_LENGTH + ' characters including spaces', null);
     }
     if (notification.hasErrors()) {
       return Result.error(notification);
     }
-    return Result.ok(new MechanicName(name));
+    return Result.ok(new MechanicName(mechanicName));
   }
 }

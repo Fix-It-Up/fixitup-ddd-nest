@@ -21,8 +21,6 @@ export class CustomersController{
       @Res({ passthrough: true }) response
     ): Promise<object> {
       try {
-        //delego a la capa de aplicacion para realizar las validaciones
-        //App Notification -> notificar de los posibles errores q tenga la aplicacion (patron notificacion)
         const result: Result<AppNotification, RegisterCustomerResponseDto> = await this.customerApplicationService.register(registerCustomerRequestDto);
         if (result.isSuccess()) {
             return ApiController.created(response, result.value);

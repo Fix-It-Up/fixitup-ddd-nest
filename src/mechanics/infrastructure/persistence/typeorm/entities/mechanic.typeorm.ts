@@ -1,18 +1,20 @@
 import { EmailTypeORM } from 'src/common/infrastructure/persistence/typeorm/value-objects/email.typeorm';
 import { PasswordTypeORM } from 'src/common/infrastructure/persistence/typeorm/value-objects/password.typeorm';
+import { MechanicId } from 'src/mechanics/domain/value-objects/mechanic-id.value';
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { MechanicAddressTypeORM } from './mechanic-address.typeorm';
 import { MechanicDescriptionTypeORM } from './mechanic-description.typeorm';
+import { MechanicIdTypeORM } from './mechanic-id.typeorm';
 import { MechanicNameTypeORM } from './mechanic-name.typeorm';
 
 
 @Entity('mechanics')
 export class MechanicTypeORM{
-    @PrimaryGeneratedColumn('increment', { type: 'bigint', name: 'id', unsigned: true })
-    public id: number;
+    @Column((type) => MechanicIdTypeORM, { prefix: false })
+    public id: MechanicIdTypeORM;
 
     @Column((type) => MechanicNameTypeORM, {prefix: false})
-    public name: MechanicNameTypeORM;
+    public mechanicName: MechanicNameTypeORM;
 
     @Column((type) => EmailTypeORM, {prefix: false})
     public email: EmailTypeORM;

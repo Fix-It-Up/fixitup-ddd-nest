@@ -5,15 +5,16 @@ import { MechanicTypeORM } from "src/mechanics/infrastructure/persistence/typeor
 import { MechanicNameTypeORM } from "src/mechanics/infrastructure/persistence/typeorm/entities/mechanic-name.typeorm";
 import { MechanicAddressTypeORM } from "src/mechanics/infrastructure/persistence/typeorm/entities/mechanic-address.typeorm";
 import { MechanicDescriptionTypeORM } from "src/mechanics/infrastructure/persistence/typeorm/entities/mechanic-description.typeorm";
+import { MechanicIdTypeORM } from "src/mechanics/infrastructure/persistence/typeorm/entities/mechanic-id.typeorm";
 
 export class MechanicMapper {
     public static toTypeORM(mechanic: Mechanic): MechanicTypeORM {
       const mechanicTypeORM: MechanicTypeORM = new MechanicTypeORM();
 
-      mechanicTypeORM.id = mechanic.getId();
+      mechanicTypeORM.id = MechanicIdTypeORM.from(mechanic.getMechanicId().getValue());
     
-      mechanicTypeORM.name = MechanicNameTypeORM.from(
-        mechanic.getName().getValue()
+      mechanicTypeORM.mechanicName = MechanicNameTypeORM.from(
+        mechanic.getMechanicName().getValue()
       );
       mechanicTypeORM.email = EmailTypeORM.from(mechanic.getEmail().getValue());
 
@@ -22,7 +23,6 @@ export class MechanicMapper {
       );
       mechanicTypeORM.address = MechanicAddressTypeORM.from(mechanic.getAddress().getValue());
 
-       //bug here!
       mechanicTypeORM.description = MechanicDescriptionTypeORM.from(mechanic.getDescription().getValue());
       return mechanicTypeORM;
     }

@@ -9,23 +9,16 @@ import { CustomerNameTypeORM } from "src/customers/infrastructure/persistence/ty
 export class CustomerMapper {
     public static toTypeORM(customer: Customer): CustomerTypeORM {
       const customerTypeORM: CustomerTypeORM = new CustomerTypeORM();
-      //bug here!
-      customerTypeORM.id = customer.getId();
-    
+      customerTypeORM.id = CustomerIdTypeORM.from(customer.getCustomerId().getValue());
       customerTypeORM.name = CustomerNameTypeORM.from(
         customer.getName().getFirstName(),
         customer.getName().getLastName(),
       );
-      console.log('im in');
-      console.log(customerTypeORM.name);
       customerTypeORM.email = EmailTypeORM.from(customer.getEmail().getValue());
-      console.log(customerTypeORM.email)
       customerTypeORM.password = PasswordTypeORM.from(
         customer.getPassword().getValue(),
       );
-      console.log(customerTypeORM.password);
       customerTypeORM.carMake = CarMakeTypeORM.from(customer.getCarMake().getValue());
-      console.log(customerTypeORM.carMake);
       return customerTypeORM;
     }
   }
