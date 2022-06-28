@@ -1,14 +1,14 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { getManager } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { GetMechanicsQuery } from '../../queries/get-mechanics.query';
 import { GetMechanicsDto } from '../../dtos/queries/get-mechanics.dto';
 
 @QueryHandler(GetMechanicsQuery)
 export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
-  constructor() {}
+  constructor(private dataSource: DataSource) {}
 
   async execute(query: GetMechanicsQuery) {
-    const manager = getManager();
+    const manager = this.dataSource.createEntityManager();
 
     const sql = `
     SELECT 
@@ -20,8 +20,6 @@ export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
         description
     FROM
         mechanics
-    ORDER BY
-        mechanic_name;  
     `;
 
     const ormMechanics = await manager.query(sql);
@@ -31,9 +29,9 @@ export class GetMechanicsHandler implements IQueryHandler<GetMechanicsQuery> {
     }
 
     const mechanics: GetMechanicsDto[] = ormMechanics.map(function (
-      ormMechanic,
+      ormMechanic
     ) {
-      const mechanicDto = new GetMechanicsDto();
+      let mechanicDto = new GetMechanicsDto();
       mechanicDto.id = Number(ormMechanic.id);
       mechanicDto.mechanicName = ormMechanic.mechanicName;
       mechanicDto.email = ormMechanic.email;

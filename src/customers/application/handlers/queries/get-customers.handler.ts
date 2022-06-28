@@ -1,14 +1,14 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { getManager } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { GetCustomersQuery } from '../../queries/get-customers.query';
 import { GetCustomersDto } from '../../dtos/queries/get-customers.dto';
 
 @QueryHandler(GetCustomersQuery)
 export class GetCustomersHandler implements IQueryHandler<GetCustomersQuery> {
-  constructor() {}
+  constructor(private dataSource: DataSource) {}
 
   async execute(query: GetCustomersQuery) {
-    const manager = getManager();
+    const manager = this.dataSource.createEntityManager();
 
     const sql = `
     SELECT 
@@ -31,7 +31,7 @@ export class GetCustomersHandler implements IQueryHandler<GetCustomersQuery> {
     const customers: GetCustomersDto[] = ormCustomers.map(function (
       ormCustomer
     ) {
-      const customerDto = new GetCustomersDto();
+      let customerDto = new GetCustomersDto();
       customerDto.id = Number(ormCustomer.id);
       customerDto.firstName = ormCustomer.firstName;
       customerDto.lastName = ormCustomer.lastName;
