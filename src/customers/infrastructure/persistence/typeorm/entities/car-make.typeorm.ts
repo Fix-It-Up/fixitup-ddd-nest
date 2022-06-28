@@ -1,7 +1,7 @@
 import { Column } from 'typeorm';
 
 export class CarMakeTypeORM {
-  @Column('varchar', { name: 'car_make', length: 50, nullable: true })
+  @Column('varchar', { name: 'car_make', length: 100, nullable: true })
   public carMake: string;
 
   private constructor(carMake: string) {

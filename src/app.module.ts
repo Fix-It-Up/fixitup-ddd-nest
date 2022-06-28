@@ -15,14 +15,12 @@ import { MechanicsModule } from './mechanics/mechanics.module';
       logging: true,
       timezone: '+00:00',
       bigNumberStrings: false,
-      // entities: ['dist/**/infrastructure/persistence/typeorm/entities/*{.ts,.js}'],
       entities: [
         process.env.ENVIRONMENT == 'prod' ? 
         '**/infrastructure/persistence/typeorm/entities/*{.ts,.js}' : 
         'dist/**/infrastructure/persistence/typeorm/entities/*{.ts,.js}'
       ],
       subscribers: [],
-      // migrations: ['dist/common/infrastructure/persistence/typeorm/migrations/*{.ts,.js}'],
       migrations: [
         process.env.ENVIRONMENT == 'prod' ? 
         'common/infrastructure/persistence/typeorm/migrations/*{.ts,.js}' : 
