@@ -1,14 +1,14 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { getManager } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { GetAppointmentsQuery } from '../../queries/get-appointments.query';
 import { GetAppointmentsDto } from '../../dtos/queries/get-appointments.dto';
 
 @QueryHandler(GetAppointmentsQuery)
 export class GetAppointmentsHandler implements IQueryHandler<GetAppointmentsQuery> {
-  constructor() {}
+  constructor(private dataSource: DataSource) {}
 
   async execute(query: GetAppointmentsQuery) {
-    const manager = getManager();
+    const manager = this.dataSource.createEntityManager();
 
     const sql = `
     SELECT 
@@ -30,9 +30,9 @@ export class GetAppointmentsHandler implements IQueryHandler<GetAppointmentsQuer
     }
 
     const appointments: GetAppointmentsDto[] = ormAppointments.map(function (
-      ormAppointment,
+      ormAppointment
     ) {
-      const appointmentDto = new GetAppointmentsDto();
+      let appointmentDto = new GetAppointmentsDto();
       appointmentDto.id = Number(ormAppointment.id);
       appointmentDto.customerId = ormAppointment.customerId;
       appointmentDto.mechanicId = ormAppointment.mechanicId;
