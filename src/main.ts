@@ -4,14 +4,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(8080);
   const config = new DocumentBuilder()
-  .setTitle('Fix it Up RESTful API')
+  .setTitle('Fix it Up API with Nest JS')
   .setDescription('FiX It Up API documentation')
   .setVersion('1.0')
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);
-
+await app.listen(8080);
 }
 bootstrap();

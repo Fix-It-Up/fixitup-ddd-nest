@@ -6,8 +6,17 @@ import { Result } from "typescript-result";
 import { RegisterCustomerRequestDto } from "../application/dtos/request/register-customer-request.dto";
 import { RegisterCustomerResponseDto } from "../application/dtos/response/register-customer-response.dto";
 import { GetCustomersQuery } from "../application/queries/get-customers.query";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CustomersApplicationService } from "../application/services/customer-application.service";
+import { GetCustomersDto } from "../application/dtos/queries/get-customers.dto";
 
+@ApiBearerAuth()
+@ApiTags('Customers')
 @Controller('customers')
 export class CustomersController{
     constructor(
@@ -15,6 +24,12 @@ export class CustomersController{
         private readonly queryBus: QueryBus
     ){}
 
+    @ApiOperation({ summary: 'Create new Customer' })
+    @ApiResponse({
+      status: 201,
+      description: 'Customer created',
+      type: GetCustomersDto,
+    })
     @Post()
     async register(
       @Body() registerCustomerRequestDto: RegisterCustomerRequestDto,
@@ -31,6 +46,13 @@ export class CustomersController{
       }
     }
 
+    @ApiOperation({ summary: 'Get All Customers' })
+    @ApiResponse({
+      status: 200,
+      description: 'All customers returned',
+      type: GetCustomersDto,
+      isArray: true,
+    })
     @Get()
     async getCustomers(@Res({ passthrough: true }) response): Promise<object> {
       try {
