@@ -5,9 +5,18 @@ import { AppNotification } from "src/common/application/app.notification";
 import { Result } from "typescript-result";
 import { RegisterMechanicRequestDto } from "../application/dtos/request/register-mechanic-request.dto";
 import { RegisterMechanicResponseDto } from "../application/dtos/response/register-mechanic-response.dto";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetMechanicsQuery } from "../application/queries/get-mechanics.query";
 import { MechanicsApplicationService } from "../application/services/mechanic-application.service";
+import { GetMechanicsDto } from "../application/dtos/queries/get-mechanics.dto";
 
+@ApiBearerAuth()
+@ApiTags('Mechanics')
 @Controller('mechanics')
 export class MechanicsController{
     constructor(
@@ -15,6 +24,12 @@ export class MechanicsController{
         private readonly queryBus: QueryBus
     ){}
 
+    @ApiOperation({ summary: 'Create new Mechanic' })
+    @ApiResponse({
+      status: 201,
+      description: 'Mechanic created',
+      type: GetMechanicsDto,
+    })
     @Post()
     async register(
       @Body() registerMechanicRequestDto: RegisterMechanicRequestDto,
@@ -33,6 +48,13 @@ export class MechanicsController{
       }
     }
 
+    @ApiOperation({ summary: 'Get All Mechanics' })
+    @ApiResponse({
+      status: 200,
+      description: 'All mechanics returned',
+      type: GetMechanicsDto,
+      isArray: true,
+    })
     @Get()
     async getMechanics(@Res({ passthrough: true }) response): Promise<object> {
       try {
