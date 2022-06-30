@@ -24,6 +24,13 @@ export class AppointmentsController {
     private readonly appointmentApplicationService: AppointmentApplicationService,
   ) {}
 
+
+  @ApiOperation({ summary: 'Create new Appointment' })
+  @ApiResponse({
+    status: 201,
+    description: 'Appointment created',
+    type: GetAppointmentsDto,
+  })
   @Post()
   async register(
     @Body() registerAppointmentRequestDto: RegisterAppointmentRequestDto,
